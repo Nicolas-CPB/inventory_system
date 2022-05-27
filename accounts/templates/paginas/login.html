@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tela login</title>
+    <link rel="stylesheet" href="{% static 'styles.css'%}" />
+  </head>
+  <body class="login-grid">
+    <header>
+      <img
+        src="https://www.anacouto.com.br/wp-content/uploads/2021/07/GALERIA-SITE-AMERICANAS.png"
+        alt=""
+      />
+    </header>
+    <main class="center">
+      <section>
+        <form method="POST" class="login-form">
+          {% csrf_token %}
+          <h1>Bem vindo</h1>
+          {% if messages %} {% for mensagem in messages %}
+          <p style="text-align: center">{{mensagem}}</p>
+          {% endfor %} {% endif %}
+          <span>
+            Usuário
+            <input type="text" name="user" />
+          </span>
+          <span>
+            senha
+            <input type="password" name="password" />
+          </span>
+          <div class="buttons">
+            <a href="{% url 'change_password' %}">Alterar senha</a>
+            <button type="submit">Entrar</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

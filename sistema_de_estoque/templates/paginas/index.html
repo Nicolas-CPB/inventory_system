@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles.css'%}" />
+</head>
+<body>
+    <header>
+        <img
+          src="https://www.anacouto.com.br/wp-content/uploads/2021/07/GALERIA-SITE-AMERICANAS.png"
+          alt=""
+        />
+        <a href="{% url 'adicionar_produto' %}">Adicionar produto</a>
+        <a href="{% url 'home' %}">Relatório</a>
+        <div class="user_actions">
+            <div class="dropdown">
+                <span class="dropbtn">{{user}}</span>
+                <div class="dropdown-content">
+                    <a href="{% url 'change_password' %}">Alterar Senha</a>
+                    <a href="{% url 'logout' %}">Sair</a>
+                </div>
+            </div>
+        </div>
+    </header>
+      {% for message in messages%}
+        <script>alert( "{{message}}" )</script>
+      {% endfor %}
+    <div name="all_products" class="all_products">
+        <table class="products-list">
+            <thead>
+                <tr>
+                    <td>categoria</td>
+                    <td>produto</td>
+                    <td>data de criação</td>
+                    <td>ultima atualização</td>
+                    <td>quantidade de vendas</td>
+                    <td>quantidade em estoque</td>
+                    <td>preço</td>
+                    <td>lucro</td>
+                    <td>actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in Produtos%}
+                <tr>
+                    <td>{{produto.categoria}}</td>
+                    <td>{{produto.nome}}</td>
+                    <td>{{produto.data_cadastro}}</td>
+                    <td>{{produto.data_update}}</td>
+                    <td>{{produto.quantidade_vendido}}</td>
+                    <td>{{produto.quantidade}}</td>
+                    <td>{{produto.valor}}</td>
+                    <td>{{produto.lucro}}</td>
+                    <td class="actions">
+                        <a href="{% url 'compra' produto.id %}">vender</a>
+                        <a href="{% url 'repor' produto.id %}">repor</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="page">
+            {% for pagina in Produtos.paginator.page_range%}
+                {% if Produto.number == pagina%}
+                <a style="background-color: red;" href="?p={{pagina}}termo={{request.GET.termo}}">{{pagina}}</a>
+                {%else%}
+                <a href="?p={{pagina}}&termo={{request.GET.termo}}">{{pagina}}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+</body>
+</html>
